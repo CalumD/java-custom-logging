@@ -223,7 +223,7 @@ public class ExtendedLogger extends Logger {
 
 
     @Override
-    public void log(Level level, String msg, Object[] params) {
+    public void log(Level level, String msg, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -235,7 +235,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, String tag, String msg, Object[] params) {
+    public void log(Level level, String tag, String msg, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -247,7 +247,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, Set<String> tags, String msg, Object[] params) {
+    public void log(Level level, Set<String> tags, String msg, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -259,7 +259,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, Supplier<String> msgSupplier, Object[] params) {
+    public void log(Level level, Supplier<String> msgSupplier, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -271,7 +271,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, String tag, Supplier<String> msgSupplier, Object[] params) {
+    public void log(Level level, String tag, Supplier<String> msgSupplier, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -283,7 +283,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, Set<String> tags, Supplier<String> msgSupplier, Object[] params) {
+    public void log(Level level, Set<String> tags, Supplier<String> msgSupplier, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -449,7 +449,7 @@ public class ExtendedLogger extends Logger {
     }
 
 
-    public void log(Level level, String msg, Throwable thrown, Object[] params) {
+    public void log(Level level, String msg, Throwable thrown, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -462,7 +462,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, String tag, String msg, Throwable thrown, Object[] params) {
+    public void log(Level level, String tag, String msg, Throwable thrown, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -475,7 +475,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, Set<String> tags, String msg, Throwable thrown, Object[] params) {
+    public void log(Level level, Set<String> tags, String msg, Throwable thrown, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -488,7 +488,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, Supplier<String> msgSupplier, Throwable thrown, Object[] params) {
+    public void log(Level level, Supplier<String> msgSupplier, Throwable thrown, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -501,7 +501,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, String tag, Supplier<String> msgSupplier, Throwable thrown, Object[] params) {
+    public void log(Level level, String tag, Supplier<String> msgSupplier, Throwable thrown, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
@@ -514,7 +514,7 @@ public class ExtendedLogger extends Logger {
         doLog(lr);
     }
 
-    public void log(Level level, Set<String> tags, Supplier<String> msgSupplier, Throwable thrown, Object[] params) {
+    public void log(Level level, Set<String> tags, Supplier<String> msgSupplier, Throwable thrown, Object... params) {
         if (!isLoggable(level)) {
             return;
         }
