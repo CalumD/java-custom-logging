@@ -725,7 +725,7 @@ class ExtendedLoggerTest {
 
     @Test
     void test_loggingWithSlf4jFormattingPlain() {
-        extendedLogger.logFormat(CustomLevel.TESTING, "msg {}, {}, {}", "val1", 2, "val3");
+        extendedLogger.format(CustomLevel.TESTING, "msg {}, {}, {}", "val1", 2, "val3");
 
         assertNotNull(capturedLogRecord);
 
@@ -740,7 +740,7 @@ class ExtendedLoggerTest {
 
     @Test
     void test_loggingWithSlf4jFormattingPlainMissingValues() {
-        extendedLogger.logFormat(CustomLevel.TESTING, "msg {}, {}, {}", "val1");
+        extendedLogger.format(CustomLevel.TESTING, "msg {}, {}, {}", "val1");
 
         assertNotNull(capturedLogRecord);
 
@@ -755,7 +755,7 @@ class ExtendedLoggerTest {
 
     @Test
     void test_loggingWithSlf4jFormattingTags() {
-        extendedLogger.logFormat(CustomLevel.TESTING, Set.of("case-by-case"), "msg {}, {}, {}", "val1", 2, "val3");
+        extendedLogger.format(CustomLevel.TESTING, Set.of("case-by-case"), "msg {}, {}, {}", "val1", 2, "val3");
 
         assertNotNull(capturedLogRecord);
 
@@ -770,7 +770,7 @@ class ExtendedLoggerTest {
 
     @Test
     void test_loggingWithSlf4jFormattingThrowable() {
-        extendedLogger.logFormat(CustomLevel.TESTING, new NullPointerException("deliberate"), "msg {}, {}, {}", "val1", 2, "val3");
+        extendedLogger.format(CustomLevel.TESTING, new NullPointerException("deliberate"), "msg {}, {}, {}", "val1", 2, "val3");
 
         assertNotNull(capturedLogRecord);
 

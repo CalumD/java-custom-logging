@@ -529,15 +529,15 @@ public class ExtendedLogger extends Logger {
     }
 
 
-    public void logFormat(Level level, String slf4jLogFormat, Object... messageParams) {
+    public void format(Level level, String slf4jLogFormat, Object... messageParams) {
         log(level, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
     }
 
-    public void logFormat(Level level, Set<String> tags, String slf4jLogFormat, Object... messageParams) {
+    public void format(Level level, Set<String> tags, String slf4jLogFormat, Object... messageParams) {
         log(level, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
     }
 
-    public void logFormat(Level level, Throwable thrown, String slf4jLogFormat, Object... messageParams) {
+    public void format(Level level, Throwable thrown, String slf4jLogFormat, Object... messageParams) {
         log(level, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
     }
 
