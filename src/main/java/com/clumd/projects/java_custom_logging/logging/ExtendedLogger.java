@@ -1,6 +1,8 @@
 package com.clumd.projects.java_custom_logging.logging;
 
 import com.clumd.projects.java_custom_logging.logging.common.ExtendedLogRecord;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.util.MissingResourceException;
@@ -20,6 +22,7 @@ import java.util.logging.StreamHandler;
  */
 public class ExtendedLogger extends Logger {
 
+    @Getter(AccessLevel.PACKAGE)
     private final Set<String> bakedInTags;
     private Set<Class<? extends StreamHandler>> controllersIgnoringThisLogger;
 
@@ -52,7 +55,11 @@ public class ExtendedLogger extends Logger {
      */
     protected ExtendedLogger(final String name, final Set<String> bakedInTags) {
         super(name, null);
-        this.bakedInTags = bakedInTags;
+        if (bakedInTags != null && !bakedInTags.isEmpty()) {
+            this.bakedInTags = bakedInTags;
+        } else {
+            this.bakedInTags = null;
+        }
     }
 
     /**

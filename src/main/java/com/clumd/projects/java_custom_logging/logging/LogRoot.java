@@ -355,12 +355,24 @@ public final class LogRoot {
         if (extLog == null) {
             extLog = new ExtendedLogger(loggerName, bakedInTags);
             LogManager.getLogManager().addLogger(extLog);
+        } else if (extLog instanceof ExtendedLogger existingExtendedLogger) {
+
+            Set<String> existingBakedTags = existingExtendedLogger.getBakedInTags();
+
+            if ((existingBakedTags == null && bakedInTags != null && !bakedInTags.isEmpty())
+                    || (existingBakedTags != null && !existingBakedTags.equals(bakedInTags))
+            ) {
+                Logger distinctExtLogger = new ExtendedLogger(loggerName, bakedInTags);
+                distinctExtLogger.setParent(existingExtendedLogger.getParent());
+                extLog = distinctExtLogger;
+            }
         }
 
         if (Thread.currentThread().threadId() > 1) {
             updateThreadIdName(Thread.currentThread().threadId(), Thread.currentThread().getName());
         }
 
+        assert extLog instanceof ExtendedLogger;
         return (ExtendedLogger) extLog;
     }
 
