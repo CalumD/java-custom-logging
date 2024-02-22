@@ -723,6 +723,66 @@ class ExtendedLoggerTest {
         );
     }
 
+    @Test
+    void test_loggingWithSlf4jFormattingPlain() {
+        extendedLogger.logFormat(CustomLevel.TESTING, "msg {}, {}, {}", "val1", 2, "val3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TESTING, capturedLogRecord.getLevel());
+        assertEquals("msg val1, 2, val3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithSlf4jFormattingPlainMissingValues() {
+        extendedLogger.logFormat(CustomLevel.TESTING, "msg {}, {}, {}", "val1");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TESTING, capturedLogRecord.getLevel());
+        assertEquals("msg val1, {}, {}", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithSlf4jFormattingTags() {
+        extendedLogger.logFormat(CustomLevel.TESTING, Set.of("case-by-case"), "msg {}, {}, {}", "val1", 2, "val3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TESTING, capturedLogRecord.getLevel());
+        assertEquals("msg val1, 2, val3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("case-by-case"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithSlf4jFormattingThrowable() {
+        extendedLogger.logFormat(CustomLevel.TESTING, new NullPointerException("deliberate"), "msg {}, {}, {}", "val1", 2, "val3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TESTING, capturedLogRecord.getLevel());
+        assertEquals("msg val1, 2, val3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("deliberate", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
 
     private class ExtendedLoggerVerification extends ExtendedLogger {
         protected ExtendedLoggerVerification(String name) {

@@ -1,6 +1,7 @@
 package com.clumd.projects.java_custom_logging.logging;
 
 import com.clumd.projects.java_custom_logging.logging.common.ExtendedLogRecord;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.util.MissingResourceException;
 import java.util.Set;
@@ -525,6 +526,19 @@ public class ExtendedLogger extends Logger {
         lr.setThrown(thrown);
         lr.setParameters(params);
         doLog(lr);
+    }
+
+
+    public void logFormat(Level level, String slf4jLogFormat, Object... messageParams) {
+        log(level, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void logFormat(Level level, Set<String> tags, String slf4jLogFormat, Object... messageParams) {
+        log(level, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void logFormat(Level level, Throwable thrown, String slf4jLogFormat, Object... messageParams) {
+        log(level, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
     }
 
 
