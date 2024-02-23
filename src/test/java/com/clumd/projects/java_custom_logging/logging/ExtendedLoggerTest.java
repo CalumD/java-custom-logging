@@ -13,10 +13,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ExtendedLoggerTest {
@@ -783,6 +780,506 @@ class ExtendedLoggerTest {
         assertNull(capturedLogRecord.getParameters());
     }
 
+    @Test
+    void test_loggingWithConvenienceMethodDebug() {
+        extendedLogger.debug("message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.DEBUG, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodDebugFormat() {
+        extendedLogger.debug("message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.DEBUG, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodDebugFormatThrows() {
+        extendedLogger.debug("message {}, {}, {}", new NullPointerException("test"), "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.DEBUG, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodDebugTags() {
+        extendedLogger.debug(Set.of("testing"), "message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.DEBUG, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodDebugTagsFormat() {
+        extendedLogger.debug(Set.of("testing"), "message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.DEBUG, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodDebugTagsFormatThrows() {
+        extendedLogger.debug(Set.of("testing"), "message {}, {}, {}", new NullPointerException("test"),"v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.DEBUG, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodInfo() {
+        extendedLogger.info("message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.INFO, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodInfoFormat() {
+        extendedLogger.info("message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.INFO, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodInfoFormatThrows() {
+        extendedLogger.info("message {}, {}, {}", new NullPointerException("test"), "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.INFO, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodInfoTags() {
+        extendedLogger.info(Set.of("testing"), "message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.INFO, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodInfoTagsFormat() {
+        extendedLogger.info(Set.of("testing"), "message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.INFO, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodInfoTagsFormatThrows() {
+        extendedLogger.info(Set.of("testing"), "message {}, {}, {}", new NullPointerException("test"),"v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.INFO, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodWarn() {
+        extendedLogger.warn("message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.WARNING, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodWarnFormat() {
+        extendedLogger.warn("message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.WARNING, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodWarnFormatThrows() {
+        extendedLogger.warn("message {}, {}, {}", new NullPointerException("test"), "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.WARNING, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodWarnTags() {
+        extendedLogger.warn(Set.of("testing"), "message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.WARNING, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodWarnTagsFormat() {
+        extendedLogger.warn(Set.of("testing"), "message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.WARNING, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodWarnTagsFormatThrows() {
+        extendedLogger.warn(Set.of("testing"), "message {}, {}, {}", new NullPointerException("test"),"v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.WARNING, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodError() {
+        extendedLogger.error("message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.ERROR, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodErrorFormat() {
+        extendedLogger.error("message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.ERROR, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodErrorFormatThrows() {
+        extendedLogger.error("message {}, {}, {}", new NullPointerException("test"), "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.ERROR, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodErrorTags() {
+        extendedLogger.error(Set.of("testing"), "message");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.ERROR, capturedLogRecord.getLevel());
+        assertEquals("message", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodErrorTagsFormat() {
+        extendedLogger.error(Set.of("testing"), "message {}, {}, {}", "v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.ERROR, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_loggingWithConvenienceMethodErrorTagsFormatThrows() {
+        extendedLogger.error(Set.of("testing"), "message {}, {}, {}", new NullPointerException("test"),"v1", 2, "v3");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.ERROR, capturedLogRecord.getLevel());
+        assertEquals("message v1, 2, v3", capturedLogRecord.getMessage());
+        assertEquals(Set.of("testing"), capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertEquals("test", capturedLogRecord.getThrown().getMessage());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_enterCanDeduceMethodIndependently() {
+        extendedLogger.enter();
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TRACE, capturedLogRecord.getLevel());
+        assertEquals(" >> ENTERING code point: com.clumd.projects.java_custom_logging.logging.ExtendedLoggerTest.test_enterCanDeduceMethodIndependently(ExtendedLoggerTest.java:1145)", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_enterMustHaveCodeLocator() {
+        assertThrows(IllegalArgumentException.class, () -> extendedLogger.enter(null));
+    }
+
+    @Test
+    void test_enterLogsWithNoParams() {
+        extendedLogger.enter("ExtendedLoggerTest#test_enterLogsWithNoParams");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TRACE, capturedLogRecord.getLevel());
+        assertEquals(" >> ENTERING code point: ExtendedLoggerTest#test_enterLogsWithNoParams", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertEquals(0, capturedLogRecord.getParameters().length, 0);
+    }
+
+    @Test
+    void test_enterLogsWithParams() {
+        extendedLogger.enter("ExtendedLoggerTest#test_enterLogsWithParams", "one", 2, "three");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TRACE, capturedLogRecord.getLevel());
+        assertEquals(" >> ENTERING code point: ExtendedLoggerTest#test_enterLogsWithParams", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertArrayEquals(new Object[]{"one", 2, "three"}, capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_exitCanDeduceMethodIndependently() {
+        extendedLogger.exit();
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TRACE, capturedLogRecord.getLevel());
+        assertEquals(" << EXITING code point: com.clumd.projects.java_custom_logging.logging.ExtendedLoggerTest.test_exitCanDeduceMethodIndependently(ExtendedLoggerTest.java:1195)", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_exitMustHaveCodeLocator() {
+        assertThrows(IllegalArgumentException.class, () -> extendedLogger.exit(null));
+    }
+
+    @Test
+    void test_exitLogsWithNoParams() {
+        extendedLogger.exit("ExtendedLoggerTest#test_exitLogsWithNoParams");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TRACE, capturedLogRecord.getLevel());
+        assertEquals(" << EXITING code point: ExtendedLoggerTest#test_exitLogsWithNoParams", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertEquals(0, capturedLogRecord.getParameters().length, 0);
+    }
+
+    @Test
+    void test_exitLogsWithParams() {
+        extendedLogger.exit("ExtendedLoggerTest#test_exitLogsWithParams", "one", 2, "three");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.TRACE, capturedLogRecord.getLevel());
+        assertEquals(" << EXITING code point: ExtendedLoggerTest#test_exitLogsWithParams", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertArrayEquals(new Object[]{"one", 2, "three"}, capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_hereCanLogIndependently() {
+        extendedLogger.here();
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.CRITICAL, capturedLogRecord.getLevel());
+        assertEquals("Code-flow has reached this point.", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_hereMustHaveCodeLocator() {
+        assertThrows(IllegalArgumentException.class, () -> extendedLogger.here(null));
+    }
+
+    @Test
+    void test_hereLogsWithLocator() {
+        extendedLogger.here("some thing useful to user");
+
+        assertNotNull(capturedLogRecord);
+
+        assertEquals(CustomLevel.CRITICAL, capturedLogRecord.getLevel());
+        assertEquals("Code-flow has reached this point: some thing useful to user", capturedLogRecord.getMessage());
+        assertNull(capturedLogRecord.getTags());
+        assertNull(capturedLogRecord.getBakedInTags());
+        assertNull(capturedLogRecord.getControllersWhichShouldDisregardThisMessage());
+        assertNull(capturedLogRecord.getThrown());
+        assertNull(capturedLogRecord.getParameters());
+    }
+
+    @Test
+    void test_constructingWithNullBakedInTags() {
+        extendedLogger = new ExtendedLoggerVerification("test.extended.logger", Set.of());
+        assertNull(extendedLogger.getBakedInTags());
+    }
 
     private class ExtendedLoggerVerification extends ExtendedLogger {
         protected ExtendedLoggerVerification(String name) {

@@ -132,11 +132,6 @@ public class ExtendedSlf4jLogger extends ExtendedLogger implements org.slf4j.Log
     }
 
     @Override
-    public void debug(String format, Object... arguments) {
-        log(CustomLevel.DEBUG, () -> MessageFormatter.arrayFormat(format, arguments).getMessage());
-    }
-
-    @Override
     public void debug(String msg, Throwable t) {
         log(CustomLevel.DEBUG, msg, t);
     }
@@ -219,11 +214,6 @@ public class ExtendedSlf4jLogger extends ExtendedLogger implements org.slf4j.Log
     @Override
     public void info(String format, Object arg1, Object arg2) {
         log(CustomLevel.INFO, () -> MessageFormatter.format(format, arg1, arg2).getMessage());
-    }
-
-    @Override
-    public void info(String format, Object... arguments) {
-        log(CustomLevel.INFO, () -> MessageFormatter.arrayFormat(format, arguments).getMessage());
     }
 
     @Override
@@ -317,11 +307,6 @@ public class ExtendedSlf4jLogger extends ExtendedLogger implements org.slf4j.Log
     }
 
     @Override
-    public void warn(String format, Object... arguments) {
-        log(CustomLevel.WARNING, () -> MessageFormatter.arrayFormat(format, arguments).getMessage());
-    }
-
-    @Override
     public void warn(String msg, Throwable t) {
         log(CustomLevel.WARNING, msg, t);
     }
@@ -409,11 +394,6 @@ public class ExtendedSlf4jLogger extends ExtendedLogger implements org.slf4j.Log
     @Override
     public void error(String format, Object arg1, Object arg2) {
         log(CustomLevel.ERROR, () -> MessageFormatter.format(format, arg1, arg2).getMessage());
-    }
-
-    @Override
-    public void error(String format, Object... arguments) {
-        log(CustomLevel.ERROR, () -> MessageFormatter.arrayFormat(format, arguments).getMessage());
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.clumd.projects.java_custom_logging.logging;
 
+import com.clumd.projects.java_custom_logging.logging.common.CustomLevel;
 import com.clumd.projects.java_custom_logging.logging.common.ExtendedLogRecord;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.util.MissingResourceException;
@@ -546,6 +548,127 @@ public class ExtendedLogger extends Logger {
 
     public void format(Level level, Throwable thrown, String slf4jLogFormat, Object... messageParams) {
         log(level, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+
+    public void debug(String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.DEBUG, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void debug(String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.DEBUG, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+    public void debug(Set<String> tags, String msg) {
+        log(CustomLevel.DEBUG, tags, msg);
+    }
+
+    public void debug(Set<String> tags, String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.DEBUG, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void debug(Set<String> tags, String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.DEBUG, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+
+    public void info(String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.INFO, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void info(String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.INFO, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+    public void info(Set<String> tags, String msg) {
+        log(CustomLevel.INFO, tags, msg);
+    }
+
+    public void info(Set<String> tags, String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.INFO, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void info(Set<String> tags, String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.INFO, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+
+    public void warn(String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.WARNING, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void warn(String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.WARNING, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+    public void warn(Set<String> tags, String msg) {
+        log(CustomLevel.WARNING, tags, msg);
+    }
+
+    public void warn(Set<String> tags, String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.WARNING, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void warn(Set<String> tags, String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.WARNING, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+
+    public void error(String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.ERROR, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void error(String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.ERROR, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+    public void error(Set<String> tags, String msg) {
+        log(CustomLevel.ERROR, tags, msg);
+    }
+
+    public void error(Set<String> tags, String slf4jLogFormat, Object... messageParams) {
+        log(CustomLevel.ERROR, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage());
+    }
+
+    public void error(Set<String> tags, String slf4jLogFormat, Throwable thrown, Object... messageParams) {
+        log(CustomLevel.ERROR, tags, () -> MessageFormatter.arrayFormat(slf4jLogFormat, messageParams).getMessage(), thrown);
+    }
+
+
+    public void enter() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+        // Stack trace [0] will always be the Thread.currentThread call
+        // Stack trace [1] will always be the entry to THIS enter() method.
+        // Stack trace [2] is the one we want, as it will be the most recent place wherever this tag was called from.
+
+        enter(stackTrace[2].toString(), (Object[]) null);
+    }
+
+    public void enter(@NonNull String codeLocator, Object... methodParams) {
+        log(CustomLevel.TRACE, () -> " >> ENTERING code point: " + codeLocator, methodParams);
+    }
+
+    public void exit() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+        // Stack trace [0] will always be the Thread.currentThread call
+        // Stack trace [1] will always be the entry to THIS enter() method.
+        // Stack trace [2] is the one we want, as it will be the most recent place wherever this tag was called from.
+
+        exit(stackTrace[2].toString(), (Object[]) null);
+    }
+
+    public void exit(@NonNull String codeLocator, Object... methodParams) {
+        log(CustomLevel.TRACE, () -> " << EXITING code point: " + codeLocator, methodParams);
+    }
+
+    public void here() {
+        log(CustomLevel.CRITICAL, "Code-flow has reached this point.");
+    }
+
+    public void here(@NonNull String codeLocator) {
+        log(CustomLevel.CRITICAL, () -> "Code-flow has reached this point: " + codeLocator);
     }
 
 
