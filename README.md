@@ -16,7 +16,7 @@ Best used with a simple Maven import
 <dependency>
     <groupId>com.clumd.projects</groupId>
     <artifactId>java-custom-logging</artifactId>
-    <version>1.0.1</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
