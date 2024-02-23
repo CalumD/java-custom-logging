@@ -182,7 +182,7 @@ class LogRootTest {
 
         assertTrue(mockController
                 .getFormatter()
-                .format(capturedLogs.get(0))
+                .format(capturedLogs.getFirst())
                 .contains("(1):Anon/Unknown Thread   ")
         );
     }
@@ -208,7 +208,7 @@ class LogRootTest {
 
         assertTrue(mockController
                 .getFormatter()
-                .format(capturedLogs.get(0))
+                .format(capturedLogs.getFirst())
                 .contains("):some special thread name   ")
         );
 
