@@ -108,6 +108,7 @@ public class DenseFileController extends FileHandler implements CustomLogHandler
                 }
             }
 
+            ret.append(' ').append(logRecord.getLoggerName());
 
             ret.append("]  ");
             ret.append(strFormatter(logRecord.getMessage()));

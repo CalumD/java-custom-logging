@@ -31,6 +31,8 @@ class DenseFileControllerTest {
     private DenseFileController controller;
     private Map<Long, String> overriddenThreadNames;
 
+    private LogRecord testLogRecord;
+
     private static class CustomLogFormattedObject implements LoggableData {
         @Override
         public String getFormattedLogData() {
@@ -61,57 +63,69 @@ class DenseFileControllerTest {
     @Test
     void test_message_format_without_extras_or_colour() {
         String message = "blah";
+        testLogRecord = new LogRecord(Level.INFO, message);
+        testLogRecord.setLoggerName("test_message_format_without_extras_or_colour");
         String formattedString = controller
                 .getFormatter()
-                .format(new LogRecord(Level.INFO, message));
+                .format(testLogRecord);
 
         assertTrue(formattedString.startsWith("["));
-        assertTrue(formattedString.contains(", INFO]  " + message));
+        assertTrue(formattedString.contains(", INFO test_message_format_without_extras_or_colour]  " + message));
         assertTrue(formattedString.endsWith("\n"));
 
+        testLogRecord = new LogRecord(Level.FINEST, message);
+        testLogRecord.setLoggerName("test_message_format_without_extras_or_colour");
         formattedString = controller
                 .getFormatter()
-                .format(new LogRecord(Level.FINEST, message));
+                .format(testLogRecord);
 
         assertTrue(formattedString.startsWith("["));
-        assertTrue(formattedString.contains(", FINEST]  " + message));
+        assertTrue(formattedString.contains(", FINEST test_message_format_without_extras_or_colour]  " + message));
         assertTrue(formattedString.endsWith("\n"));
 
+        testLogRecord = new LogRecord(Level.SEVERE, message);
+        testLogRecord.setLoggerName("test_message_format_without_extras_or_colour");
         formattedString = controller
                 .getFormatter()
-                .format(new LogRecord(Level.SEVERE, message));
+                .format(testLogRecord);
 
         assertTrue(formattedString.startsWith("["));
-        assertTrue(formattedString.contains(", SEVERE]  " + message));
+        assertTrue(formattedString.contains(", SEVERE test_message_format_without_extras_or_colour]  " + message));
         assertTrue(formattedString.endsWith("\n"));
     }
 
     @Test
     void test_message_format_without_extras() {
         String message = "blah";
+        testLogRecord = new LogRecord(CustomLevel.FAILURE, message);
+        testLogRecord.setLoggerName("test_message_format_without_extras");
         overriddenThreadNames.put(1L, "some name");
         String formattedString = controller
                 .getFormatter()
-                .format(new LogRecord(CustomLevel.FAILURE, message));
+                .format(testLogRecord);
 
         assertTrue(formattedString.startsWith("["));
-        assertTrue(formattedString.contains(", FAILURE]  " + message));
+        assertTrue(formattedString.contains(", FAILURE test_message_format_without_extras]  " + message));
         assertTrue(formattedString.endsWith("\n"));
 
+        testLogRecord = new LogRecord(CustomLevel.INFO, message);
+        testLogRecord.setLoggerName("test_message_format_without_extras");
         formattedString = controller
                 .getFormatter()
-                .format(new LogRecord(CustomLevel.INFO, message));
+                .format(testLogRecord);
 
         assertTrue(formattedString.startsWith("["));
-        assertTrue(formattedString.contains(", INFO]  " + message));
+        assertTrue(formattedString.contains(", INFO test_message_format_without_extras]  " + message));
         assertTrue(formattedString.endsWith("\n"));
 
+        testLogRecord = new LogRecord(CustomLevel.DEBUG, message);
+        testLogRecord.setLoggerName("test_message_format_without_extras");
         formattedString = controller
                 .getFormatter()
-                .format(new LogRecord(CustomLevel.DEBUG, message));
+                .format(testLogRecord);
 
         assertTrue(formattedString.startsWith("["));
-        assertTrue(formattedString.contains(", DEBUG]  " + message));
+        assertTrue(formattedString.contains(", DEBUG test_message_format_without_extras]  " + message));
         assertTrue(formattedString.endsWith("\n"));
     }
 
@@ -144,13 +158,14 @@ class DenseFileControllerTest {
         LogRecord logRecord = new LogRecord(CustomLevel.WARNING, message);
         logRecord.setThrown(quadNestedThrowable);
         logRecord.setParameters(logParams);
+        logRecord.setLoggerName("test_message_format_with_throwables_and_data");
 
         String formattedString = controller
                 .getFormatter()
                 .format(logRecord);
 
         assertTrue(formattedString.startsWith("["));
-        assertTrue(formattedString.contains(", WARNING]  " + message));
+        assertTrue(formattedString.contains(", WARNING test_message_format_with_throwables_and_data]  " + message));
         assertTrue(formattedString.contains("\nError:  (Throwable) 1st reason\n"));
         assertTrue(formattedString.contains("\nNested Reason:  (RuntimeException) 2nd reason\n"));
         assertTrue(formattedString.contains("\nNested Reason:  (IOException) 3rd IO\n"));
@@ -162,56 +177,62 @@ class DenseFileControllerTest {
     @Test
     void test_log_actually_written_to_file() throws IOException {
         String message = "blah";
-        controller.publish(new LogRecord(Level.INFO, message));
+        testLogRecord = new LogRecord(Level.INFO, message);
+        testLogRecord.setLoggerName("test_log_actually_written_to_file");
+        controller.publish(testLogRecord);
 
         List<String> fileContents = TestFileUtils.getFileAsStrings(LOGGING_TEST_PATH);
 
         assertEquals(1, fileContents.size(), 0);
-        assertTrue(fileContents.get(0).startsWith("["));
-        assertTrue(fileContents.get(0).contains(", INFO]  " + message));
-        assertTrue(fileContents.get(0).endsWith("\n"));
+        assertTrue(fileContents.getFirst().startsWith("["));
+        assertTrue(fileContents.getFirst().contains(", INFO test_log_actually_written_to_file]  " + message));
+        assertTrue(fileContents.getFirst().endsWith("\n"));
     }
 
     @Test
     void test_log_tags_to_file_with_only_regular() throws IOException {
         String message = "blah";
-        controller.publish(new ExtendedLogRecord(Level.INFO, message, Set.of("tag1", "tag2")));
+        testLogRecord = new ExtendedLogRecord(Level.INFO, message, Set.of("tag1", "tag2"));
+        testLogRecord.setLoggerName("test_log_tags_to_file_with_only_regular");
+        controller.publish(testLogRecord);
 
         List<String> fileContents = TestFileUtils.getFileAsStrings(LOGGING_TEST_PATH);
 
         assertEquals(1, fileContents.size(), 0);
-        assertTrue(fileContents.get(0).startsWith("["));
-        assertTrue(fileContents.get(0).contains(", INFO, [tag1, tag2]]  " + message) || fileContents.get(0).contains(", INFO, [tag2, tag1]]  " + message) );
-        assertTrue(fileContents.get(0).endsWith("\n"));
+        assertTrue(fileContents.getFirst().startsWith("["));
+        assertTrue(fileContents.getFirst().contains(", INFO, [tag1, tag2] test_log_tags_to_file_with_only_regular]  " + message) || fileContents.getFirst().contains(", INFO, [tag2, tag1] test_log_tags_to_file_with_only_regular]  " + message) );
+        assertTrue(fileContents.getFirst().endsWith("\n"));
     }
 
 
     @Test
     void test_log_tags_to_file_with_baked_in_tags() throws IOException {
         String message = "blah";
-        controller.publish(new ExtendedLogRecord(Level.INFO, message)
-                .referencingBakedInTags(Set.of("baked")));
+        testLogRecord = new ExtendedLogRecord(Level.INFO, message).referencingBakedInTags(Set.of("baked"));
+        testLogRecord.setLoggerName("test_log_tags_to_file_with_baked_in_tags");
+        controller.publish(testLogRecord);
 
         List<String> fileContents = TestFileUtils.getFileAsStrings(LOGGING_TEST_PATH);
 
         assertEquals(1, fileContents.size(), 0);
-        assertTrue(fileContents.get(0).startsWith("["));
-        assertTrue(fileContents.get(0).contains(", INFO, [baked]]  " + message));
-        assertTrue(fileContents.get(0).endsWith("\n"));
+        assertTrue(fileContents.getFirst().startsWith("["));
+        assertTrue(fileContents.getFirst().contains(", INFO, [baked] test_log_tags_to_file_with_baked_in_tags]  " + message));
+        assertTrue(fileContents.getFirst().endsWith("\n"));
     }
 
     @Test
     void test_log_tags_to_file_with_regular_and_baked_in_tags() throws IOException {
         String message = "blah";
-        controller.publish(new ExtendedLogRecord(Level.INFO, message, Set.of("tag1"))
-                .referencingBakedInTags(Set.of("baked")));
+        testLogRecord = new ExtendedLogRecord(Level.INFO, message, Set.of("tag1")).referencingBakedInTags(Set.of("baked"));
+        testLogRecord.setLoggerName("test_log_tags_to_file_with_regular_and_baked_in_tags");
+        controller.publish(testLogRecord);
 
         List<String> fileContents = TestFileUtils.getFileAsStrings(LOGGING_TEST_PATH);
 
         assertEquals(1, fileContents.size(), 0);
-        assertTrue(fileContents.get(0).startsWith("["));
-        assertTrue(fileContents.get(0).contains(", INFO, [baked], [tag1]]  " + message));
-        assertTrue(fileContents.get(0).endsWith("\n"));
+        assertTrue(fileContents.getFirst().startsWith("["));
+        assertTrue(fileContents.getFirst().contains(", INFO, [baked], [tag1] test_log_tags_to_file_with_regular_and_baked_in_tags]  " + message));
+        assertTrue(fileContents.getFirst().endsWith("\n"));
     }
 
     @Test
