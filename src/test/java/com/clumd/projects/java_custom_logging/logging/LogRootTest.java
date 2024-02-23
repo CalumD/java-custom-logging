@@ -28,11 +28,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
@@ -216,6 +212,51 @@ class LogRootTest {
                 .contains("):some special thread name   ")
         );
 
+    }
+
+    @Test
+    void checkCreatingTwoLoggersWithTheSameNameButDifferentBakedTagsAreDistinct() {
+        final String name = "SAME_NAME";
+
+        ExtendedLogger ext1 = LogRoot.createLogger(name);
+        ExtendedLogger ext2 = LogRoot.createLogger(name, Set.of("first", "logger"));
+        ExtendedLogger ext3 = LogRoot.createLogger(name);
+        ExtendedLogger ext4 = LogRoot.createLogger(name, Set.of("different", "tags"));
+
+        // Prove that 1 and 3 are the same, because they are by both name and tag combination
+        assertSame(ext1, ext3);
+
+        // Prove that other loggers will have distinct baked tags because even though name is same, the tags differentiate them.
+        assertNull(ext1.getBakedInTags());
+        assertEquals(Set.of("first", "logger"), ext2.getBakedInTags());
+        assertEquals(Set.of("different", "tags"), ext4.getBakedInTags());
+    }
+
+    @Test
+    void checkSettingALogLevelBeforeALoggerExistsInThatNamespacePreservesTheSetting() {
+        final String sampleNamespace = "I.Am.Surely.Distinct.In.The.Namespace";
+
+        // By default, only warning and above should log.
+        LogRoot.setGlobalLoggingLevel(CustomLevel.WARNING);
+
+        // Update our custom namespace to something lower.
+        LogRoot.setBranchLoggingLevel(CustomLevel.DEBUG, sampleNamespace);
+
+        // Create a logger in each namespace
+        ExtendedLogger regularNamespace = LogRoot.createLogger(LogRootTest.class);
+        ExtendedLogger customNamespace = LogRoot.createLogger(sampleNamespace);
+
+        // Show that the custom namespace can log even though nothing existed there before, but the regular namespace cannot.
+        assertFalse(regularNamespace.isLoggable(Level.INFO));
+        regularNamespace.log(CustomLevel.INFO, "AM I LOGGED in the regular namespace");
+        assertTrue(customNamespace.isLoggable(Level.INFO));
+        customNamespace.log(CustomLevel.INFO, "AM I LOGGED in the custom namespace");
+
+        List<LogRecord> capturedLogs = logCaptor.getAllValues();
+
+        assertEquals(1, capturedLogs.size(), 0);
+        assertEquals(LOGGING_ROOT + "." + sampleNamespace, capturedLogs.getFirst().getLoggerName());
+        assertEquals("AM I LOGGED in the custom namespace", capturedLogs.getFirst().getMessage());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
