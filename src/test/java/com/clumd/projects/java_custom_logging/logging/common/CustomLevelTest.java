@@ -57,6 +57,7 @@ class CustomLevelTest {
             System.out.println("ERROR " + ERROR.getLevelFormat() + "HELLO WORLD" + COLOUR_RESET);
             System.out.println("FAILURE " + FAILURE.getLevelFormat() + "HELLO WORLD" + COLOUR_RESET);
             System.out.println("WARNING " + WARNING.getLevelFormat() + "HELLO WORLD" + COLOUR_RESET);
+            System.out.println("ALERT " + ALERT.getLevelFormat() + "HELLO WORLD" + COLOUR_RESET);
             System.out.println("IMPORTANT " + IMPORTANT.getLevelFormat() + "HELLO WORLD" + COLOUR_RESET);
             System.out.println("NOTIFY " + NOTIFICATION.getLevelFormat() + "HELLO WORLD" + COLOUR_RESET);
             System.out.println("INFO " + INFO.getLevelFormat() + "HELLO WORLD" + COLOUR_RESET);

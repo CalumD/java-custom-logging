@@ -34,6 +34,7 @@ public class CustomLevel extends Level implements LogLevel, Serializable {
     public static final CustomLevel ERROR = CustomLevel.of("ERROR", 950, createFormat(List.of(BOLD, BRIGHT_RED)));
     public static final CustomLevel FAILURE = CustomLevel.of("FAILURE", 950, createFormat(List.of(BOLD, BRIGHT_RED)));
     public static final CustomLevel WARNING = CustomLevel.of("WARNING", 900, RED);
+    public static final CustomLevel ALERT = CustomLevel.of("ALERT", 875, createFormat(List.of(BOLD, BRIGHT_BLUE)));
     public static final CustomLevel IMPORTANT = CustomLevel.of("IMPORTANT", 850, createFormat(List.of(BOLD, BRIGHT_GREEN)));
     public static final CustomLevel NOTIFICATION = CustomLevel.of("NOTIFICATION", 850, createFormat(List.of(BOLD, BRIGHT_GREEN)));
     public static final CustomLevel INFO = CustomLevel.of("INFO", 800, GREEN);
